@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "module": "system",
+    "outFile": "./build/index.js",
+    "target": "es5",
+    "sourceMap": true
+  },
+  "include": ["./src/**/*"]
+}
