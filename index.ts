@@ -50,10 +50,6 @@ export default class Todo {
     $controlBtns.forEach((btn) => btn.classList.remove('active'));
   }
 
-  resetInput(inputElement: HTMLInputElement) {
-    inputElement.value = '';
-  }
-
   getStatus() {
     let status;
     const $controlBtns = document.querySelectorAll('.btn');
@@ -87,21 +83,32 @@ export default class Todo {
     this.renderTodo(this.filterTodo(this.getStatus()));
   }
 
+  editTodo({ target }: MouseEvent, id: TodoItem['id']) {
+    const index = this.todoList.findIndex((todo) => todo.id === id);
+    const todo = this.todoList[index];
+    const newTodo = { ...todo, content: (target as HTMLDivElement).innerText };
+
+    this.todoList.splice(index, 1, newTodo);
+    this.renderTodo(this.filterTodo(this.getStatus()));
+  }
+
   makeTodo(todo: TodoItem) {
     const itemContainer = document.createElement('div');
     const item = `
       <div class="item__div">
-        <input type='checkbox' ${todo.isDone ? 'checked' : ''}/>
-        <div>${todo.content}</div>
+        <input type='checkbox' ${todo.isDone && 'checked'}/>
+        <div class='content ${todo.isDone && 'checked'}' contentEditable>${todo.content}</div>
         <button>X</button>
       </div>`;
 
     itemContainer.classList.add('item');
     itemContainer.innerHTML = item;
 
+    const todoItem = itemContainer.querySelector('.content');
     const checkbox = itemContainer.querySelector('input[type=checkbox]');
     const deleteBtn = itemContainer.querySelector('button');
 
+    todoItem.addEventListener('blur', (event: MouseEvent) => this.editTodo(event, todo.id));
     deleteBtn.addEventListener('click', () => this.deleteTodo(todo.id));
     checkbox.addEventListener('change', () => this.updateTodo(todo.id));
     itemContainer.appendChild(deleteBtn);
@@ -117,6 +124,10 @@ export default class Todo {
 
   resetContent(element) {
     element.innerHTML = '';
+  }
+
+  resetInput(inputElement: HTMLInputElement) {
+    inputElement.value = '';
   }
 
   renderTodo(todoList) {

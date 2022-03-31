@@ -1,6 +1,6 @@
-<img src='./assets/images/readme_preview.png'>
+<img src='./assets/images/readme_preview_1.png'>
 
-# 💫 Typescript Calculator Practice!
+# 💫 Typescript Todo Practice!
 
 ## Before Start
 
@@ -21,7 +21,7 @@
 3. 빌드하기
 
    ```
-     tsc --outfile ./build/bundle.js --module system ./index.ts
+    tsc --outfile ./build/bundle.js --module system --target es6 ./index.ts
    ```
 
 <b>(+) [VSCode Extension](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)으로도 사용해볼 수 있어요!</b>
@@ -31,12 +31,12 @@
 1. 이 레포지토리를 Clone 받으세요.
 2. Live Server를 실행하세요.
 3. `index.ts`에 계산기 로직을 직접 구현해보세요.
-4. `tsc --outfile ./build/bundle.js --module system ./index.ts`를 통해 빌드한 결과물을 확인해보세요.
+4. `tsc --outfile ./build/bundle.js --module system --target es6 ./index.ts`를 통해 빌드한 결과물을 확인해보세요.
 
 ## Bug
 
-버그가 있다면 [Issues](https://github.com/ddongule/js-calculator-practice/issues)에 등록해주세요!
+버그가 있다면 [Issues](https://github.com/ddongule/typescript-calculator/issues)에 등록해주세요!
 
 ## License
 
-이 프로젝트는 [MIT License](https://github.com/ddongule/js-calculator-practice/blob/master/LICENSE)를 따릅니다.
+이 프로젝트는 [MIT License](https://github.com/ddongule/typescript-calculator/blob/main/LICENSE)를 따릅니다.

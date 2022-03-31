@@ -69,18 +69,27 @@ System.register("index", [], function (exports_1, context_1) {
                     this.todoList.splice(index, 1, newTodo);
                     this.renderTodo(this.filterTodo(this.getStatus()));
                 }
+                editTodo({ target }, id) {
+                    const index = this.todoList.findIndex((todo) => todo.id === id);
+                    const todo = this.todoList[index];
+                    const newTodo = Object.assign(Object.assign({}, todo), { content: target.innerText });
+                    this.todoList.splice(index, 1, newTodo);
+                    this.renderTodo(this.filterTodo(this.getStatus()));
+                }
                 makeTodo(todo) {
                     const itemContainer = document.createElement('div');
                     const item = `
       <div class="item__div">
-        <input type='checkbox' ${todo.isDone ? 'checked' : ''}/>
-        <div>${todo.content}</div>
+        <input type='checkbox' ${todo.isDone && 'checked'}/>
+        <div class='content ${todo.isDone && 'checked'}' contentEditable>${todo.content}</div>
         <button>X</button>
       </div>`;
                     itemContainer.classList.add('item');
                     itemContainer.innerHTML = item;
+                    const todoItem = itemContainer.querySelector('.content');
                     const checkbox = itemContainer.querySelector('input[type=checkbox]');
                     const deleteBtn = itemContainer.querySelector('button');
+                    todoItem.addEventListener('blur', (event) => this.editTodo(event, todo.id));
                     deleteBtn.addEventListener('click', () => this.deleteTodo(todo.id));
                     checkbox.addEventListener('change', () => this.updateTodo(todo.id));
                     itemContainer.appendChild(deleteBtn);
@@ -93,13 +102,13 @@ System.register("index", [], function (exports_1, context_1) {
                 resetContent(element) {
                     element.innerHTML = '';
                 }
-                renderTodo(todosToRender) {
+                renderTodo(todoList) {
                     const $todoItems = document.querySelector('.todo-items');
                     const $todoCount = document.querySelector('#todo-count');
                     this.resetContent($todoItems);
                     const frag = document.createDocumentFragment();
-                    const todoList = todosToRender.map((todo) => this.makeTodo(todo));
-                    frag.append(...todoList);
+                    const todoElements = todoList.map((todo) => this.makeTodo(todo));
+                    frag.append(...todoElements);
                     $todoItems.appendChild(frag);
                     $todoCount.innerText = `${todoList.length}`;
                 }

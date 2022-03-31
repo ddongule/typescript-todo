@@ -42,6 +42,10 @@ input[type='text'] {
   padding: 14px 18px;
   border-bottom: 1px solid #e7e7e7;
   font-size: 16px;
+  position: sticky;
+  left: 0;
+  right: 0;
+  top: 0;
 }
 
 .todo-container {
@@ -72,6 +76,13 @@ input[type='text'] {
   border-radius: 10px 10px 0 0;
   box-shadow: 0 0 10px 2px rgb(233, 233, 233);
   background: white;
+  overflow: auto;
+  scrollbar-width: none;
+  position: relative;
+}
+
+.todo-list::-webkit-scrollbar {
+  display: none;
 }
 
 .todo-list .todo-items .item {
@@ -86,10 +97,20 @@ input[type='text'] {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
 }
 
 .todo-list .todo-items .item .item__div * {
   margin-right: 10px;
+}
+
+.todo-list .todo-items .item .item__div .content {
+  width: 100%;
+}
+
+.todo-list .todo-items .item .item__div .content.checked {
+  text-decoration: line-through;
+  text-decoration-color: rgb(0, 38, 255);
 }
 
 button.active {
