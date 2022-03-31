@@ -8,51 +8,25 @@
     <script src="https://unpkg.com/systemjs@2.1.1/dist/extras/named-register.js"></script>
     <link rel="stylesheet" type="text/css" href="./style.css" />
 
-    <title>Calculator</title>
+    <title>Todo</title>
   </head>
   <body>
-    <article class="calculator">
-      <section class="result-container">
-        <nav class="navigation">
-          <span class="close"></span>
-          <span class="minimize"></span>
-          <span class="zoom"></span>
-        </nav>
-        <div class="result" id="result">0</div>
+    <section class="todo-container">
+      <div class="title">Typescript Todos</div>
+      <section class="todo-control">
+        <div class="total">총 <span id="todo-count">0</span>개</div>
+        <div class="control">
+          <button class="btn all">전체 보기</button>
+          <button class="btn complete">완료된 것만 보기</button>
+          <button class="btn not-complete">해야할 일 보기</button>
+        </div>
       </section>
-      <section class="contents">
-        <section class="numbers">
-          <section class="clear">
-            <button class="ac">AC</button>
-          </section>
-          <div class="first-row">
-            <button class="number">7</button>
-            <button class="number">8</button>
-            <button class="number">9</button>
-          </div>
-          <div class="second-row">
-            <button class="number">4</button>
-            <button class="number">5</button>
-            <button class="number">6</button>
-          </div>
-          <div class="third-row">
-            <button class="number">1</button>
-            <button class="number">2</button>
-            <button class="number">3</button>
-          </div>
-          <div class="fourth-row">
-            <button class="number">0</button>
-          </div>
-        </section>
-        <section class="operators">
-          <button class="operator">÷</button>
-          <button class="operator">+</button>
-          <button class="operator">-</button>
-          <button class="operator">×</button>
-          <button class="operator">=</button>
-        </section>
+
+      <section class="todo-list">
+        <input type="text" id="todo-input" placeholder="할 일을 추가해주세요." />
+        <div class="todo-items"></div>
       </section>
-    </article>
+    </section>
     <script src="./build/bundle.js"></script>
     <script>
       System.import('index');

@@ -1,6 +1,6 @@
 <img src='./assets/images/readme_preview.png'>
 
-# 💫 Javascript Calculator Practice!
+# 💫 Typescript Calculator Practice!
 
 ## Before Start
 

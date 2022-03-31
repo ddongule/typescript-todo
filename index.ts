@@ -1,120 +1,137 @@
-const VALID_NUMBER_OF_DIGITS = 3;
-const BASE_DIGIT = 10;
+type TodoStatus = 'all' | 'complete' | 'not-complete';
 
-export default class Calculator {
-  result: number;
-  operator: string;
-  currentNumber: number;
+type TodoItem = {
+  id: number;
+  isDone: boolean;
+  content: string;
+};
+
+export default class Todo {
+  todoList: TodoItem[];
 
   constructor() {
-    this.result = 0;
-    this.operator = '';
-    this.currentNumber = 0;
+    this.todoList = [];
 
     this.init();
   }
 
   init() {
-    const $calculator = document.querySelector('.calculator');
-    $calculator.addEventListener('click', this.onClickButton.bind(this));
+    const $input = document.querySelector('#todo-input');
+    const $controlBtns = document.querySelectorAll('.btn');
+
+    $controlBtns.forEach((btn) => {
+      const btnClass = btn.classList.value.split(' ')[1] as TodoStatus;
+
+      btn.addEventListener('click', (event: MouseEvent) => {
+        const filteredTodo = this.filterTodo(btnClass);
+        this.addActiveStatus(event);
+        this.renderTodo(filteredTodo);
+      });
+    });
+
+    $input.addEventListener('keydown', this.onEnterClick.bind(this));
   }
 
-  onClickButton({ target: { innerText } }) {
-    if (innerText === 'AC') {
-      this.reset();
-    } else {
-      this.operate(innerText);
-    }
-
-    this.render(innerText);
+  filterTodo(filterBy: TodoStatus) {
+    if (filterBy === 'all') return this.todoList;
+    if (filterBy === 'complete') return this.todoList.filter((todo) => todo.isDone);
+    if (filterBy === 'not-complete') return this.todoList.filter((todo) => !todo.isDone);
   }
 
-  render(innerText: number) {
-    const $result = document.querySelector('#result') as HTMLElement;
+  addActiveStatus({ target }: MouseEvent) {
+    this.resetActiveStatus();
 
-    $result.innerText = this.isNumber(innerText) ? `${this.currentNumber}` : `${this.result}`;
+    const activeTarget = target as HTMLButtonElement;
+    activeTarget.classList.add('active');
   }
 
-  isNumber(input: number) {
-    return !isNaN(input);
+  resetActiveStatus() {
+    const $controlBtns = document.querySelectorAll('.btn');
+    $controlBtns.forEach((btn) => btn.classList.remove('active'));
   }
 
-  operate(inputText: number) {
-    if (this.isNumber(inputText)) {
-      this.formatNumber(Number(inputText));
-
-      return;
-    }
-
-    if (this.result === 0 && this.currentNumber === 0) return;
-
-    this.result = this.calculate(this.result, this.currentNumber, this.operator);
-    this.operator = `${inputText}`;
-    this.currentNumber = 0;
+  resetInput(inputElement: HTMLInputElement) {
+    inputElement.value = '';
   }
 
-  validateCurrentNumber() {
-    const isValid = String(this.currentNumber).length < VALID_NUMBER_OF_DIGITS;
+  getStatus() {
+    let status;
+    const $controlBtns = document.querySelectorAll('.btn');
+    $controlBtns.forEach((btn) => {
+      if (btn.classList.contains('active')) {
+        status = btn.classList.value.split(' ')[1] as TodoStatus;
+      }
+    });
 
-    if (!isValid) {
-      alert(`${VALID_NUMBER_OF_DIGITS}자리수 이상의 수는 넣을 수 없습니다.`);
-      this.reset();
-
-      return false;
-    }
-
-    return true;
+    return status;
   }
 
-  formatNumber(digit: number) {
-    if (this.validateCurrentNumber()) {
-      this.currentNumber = this.currentNumber * BASE_DIGIT + digit;
-    }
-  }
+  onEnterClick(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      const $input = event.target as HTMLInputElement;
+      const lastElementId = this.todoList.length ? this.todoList[this.todoList.length - 1].id : -1;
 
-  plus(a: number, b: number) {
-    return a + b;
-  }
+      this.todoList.push({ id: lastElementId + 1, isDone: false, content: $input.value });
+      this.resetInput($input);
 
-  minus(a: number, b: number) {
-    return a - b;
-  }
-
-  multiply(a: number, b: number) {
-    return a * b;
-  }
-
-  divide(a: number, b: number) {
-    return Number((a / b).toFixed(2));
-  }
-
-  calculate(number1: number, number2: number, operator: string) {
-    if (operator === '+') {
-      return this.plus(number1, number2);
-    }
-
-    if (operator === '-') {
-      return this.minus(number1, number2);
-    }
-
-    if (operator === '×') {
-      return this.multiply(number1, number2);
-    }
-
-    if (operator === '÷') {
-      return this.divide(number1, number2);
-    }
-
-    if (operator === '' || operator === '=') {
-      return number2;
+      this.renderTodo(this.todoList);
     }
   }
 
-  reset() {
-    this.result = 0;
-    this.operator = '';
-    this.currentNumber = 0;
+  updateTodo(id: TodoItem['id']) {
+    const index = this.todoList.findIndex((todo) => todo.id === id);
+    const todo = this.todoList[index];
+    const newTodo = { ...todo, isDone: !todo.isDone };
+
+    this.todoList.splice(index, 1, newTodo);
+    this.renderTodo(this.filterTodo(this.getStatus()));
+  }
+
+  makeTodo(todo: TodoItem) {
+    const itemContainer = document.createElement('div');
+    const item = `
+      <div class="item__div">
+        <input type='checkbox' ${todo.isDone ? 'checked' : ''}/>
+        <div>${todo.content}</div>
+        <button>X</button>
+      </div>`;
+
+    itemContainer.classList.add('item');
+    itemContainer.innerHTML = item;
+
+    const checkbox = itemContainer.querySelector('input[type=checkbox]');
+    const deleteBtn = itemContainer.querySelector('button');
+
+    deleteBtn.addEventListener('click', () => this.deleteTodo(todo.id));
+    checkbox.addEventListener('change', () => this.updateTodo(todo.id));
+    itemContainer.appendChild(deleteBtn);
+
+    return itemContainer;
+  }
+
+  deleteTodo(id: TodoItem['id']) {
+    this.todoList = this.todoList.filter((todo) => todo.id !== id);
+
+    this.renderTodo(this.filterTodo(this.getStatus()));
+  }
+
+  resetContent(element) {
+    element.innerHTML = '';
+  }
+
+  renderTodo(todoList) {
+    const $todoItems = document.querySelector('.todo-items') as HTMLElement;
+    const $todoCount = document.querySelector('#todo-count') as HTMLElement;
+    this.resetContent($todoItems);
+
+    const frag = document.createDocumentFragment();
+    const todoElements = todoList.map((todo) => this.makeTodo(todo));
+
+    frag.append(...todoElements);
+
+    $todoItems.appendChild(frag);
+    $todoCount.innerText = `${todoList.length}`;
   }
 }
 
-new Calculator();
+new Todo();

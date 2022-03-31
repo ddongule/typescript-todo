@@ -1,4 +1,3 @@
-
 html,
 body {
   height: 100%;
@@ -6,15 +5,14 @@ body {
   cursor: default;
   margin: 0;
   padding: 0;
-  background-color: #fff;
+  background-color: #f7f8ff;
   display: flex;
   justify-content: center;
-  align-items: center;
 }
 
 * {
-  font-family: -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
+    'Open Sans', 'Helvetica Neue', sans-serif;
   margin: 0;
   padding: 0;
   border: 0;
@@ -25,138 +23,75 @@ body {
 
 button {
   cursor: pointer;
-}
-
-.calculator {
-  width: 20.5rem;
-  border-left: 1px solid #222;
-  border-bottom: 1px solid #222;
-  border-radius: 0.5rem;
-  box-shadow: 0px 25px 50px 1px rgb(0 0 0 / 30%);  
-}
-
-.calculator .result-container {
-  height: 7rem;
-  background: #2c2d2f;
-  border-radius: 0.5rem 0.5rem 0 0;
-}
-
-.calculator .result-container .navigation {
-  margin-left: 4px;
-}
-
-.calculator .result-container .navigation > * {
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-}
-
-.calculator .result-container .navigation .close {
-  background: #ff5b52;
-}
-
-.calculator .result-container .navigation .minimize {
-  background: #e6c029;
-}
-
-.calculator .result-container .navigation .zoom {
-  background: #53c22c;
-}
-
-.calculator .result-container .result {
-  padding: 0.3rem 0.7rem;
-  height: calc(100% - 1rem);
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-end;
-  text-align: right;
-  color: #fff;
-  font-size: 3.625rem;
-}
-
-.calculator .contents {
-  display: flex;
-}
-
-.calculator .contents button:hover {
+  padding: 5px 10px;
+  border-radius: 10px;
+  border: 0.5px solid rgb(207, 207, 207);
   background: white;
 }
 
-.calculator .contents button:active {
-  box-shadow: 0 0 10px 0 rgb(0 0 0 / 15%) inset;
+button:hover {
+  background: #e0eaff;
 }
 
-.calculator .contents .clear .ac {
-  background: #3f4143;
-  color: white;
+button:active {
+  background: #ccdcff;
 }
 
-.calculator .contents .clear .ac:hover {
-  background: #666666;
-}
-
-.calculator .contents .clear .ac:active {
-  box-shadow: 0 0 10px 0 rgb(0 0 0 / 20%) inset;
-}
-
-.calculator .contents .clear,
-.calculator .contents .numbers {
-  display: flex;
-  flex-direction: column;
-  width: 15rem;
-}
-
-
-.calculator .contents .operators {
-  display: flex;
-  flex-direction: column;
+input[type='text'] {
   width: 100%;
+  padding: 14px 18px;
+  border-bottom: 1px solid #e7e7e7;
+  font-size: 16px;
 }
 
+.todo-container {
+  margin-top: 200px;
+  width: 480px;
+}
 
-.calculator .contents .numbers .first-row,
-.calculator .contents .numbers .second-row,
-.calculator .contents .numbers .third-row {
+.todo-container .title {
+  text-align: center;
+  font-weight: bold;
+  font-size: 25px;
+}
+
+.todo-container .todo-control {
+  margin-top: 30px;
   display: flex;
+  justify-content: space-between;
 }
 
-.calculator .contents .operators .operator {
-  background: #ff9f0d;
+.todo-container .todo-control .control {
+  text-align: center;
 }
 
-.calculator .contents .operators .operator:hover {
-  background: #ffb748;
+.todo-list {
+  height: calc(100% - 106px);
+  margin-top: 15px;
+  overflow: hidden;
+  border-radius: 10px 10px 0 0;
+  box-shadow: 0 0 10px 2px rgb(233, 233, 233);
+  background: white;
 }
 
-.calculator .contents .operators .operator:last-child {
-  border-radius: 0 0 0.5rem 0; 
-  border-right: 1px solid #222;
-  padding: 1.825rem 0;
-  font-size: 1.4rem;
+.todo-list .todo-items .item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 15px;
+  border-bottom: 1px solid #e7e7e7;
 }
 
-.calculator .contents .numbers .clear .ac,
-.calculator .contents .operator:not(:last-child) { 
-  border-right: 1px solid #222;
-  border-bottom: 1px solid #222;
-  padding: 1.825rem;
-  font-size: 1.4rem;
+.todo-list .todo-items .item .item__div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.calculator .contents .numbers .number {
-  border-right: 1px solid #222;
-  border-bottom: 1px solid #222;
-  width: 5rem;
-  padding: 1.825rem 0;
-  font-size: 1.4rem;
+.todo-list .todo-items .item .item__div * {
+  margin-right: 10px;
 }
 
-.calculator .contents .numbers .fourth-row .number {
-  border-bottom: 0;
-}
-
-.calculator .contents .numbers .fourth-row .number {
-  width: 100%;
-  border-radius: 0 0 0 0.5rem;
+button.active {
+  border: 0.5px solid rgb(0, 38, 255);
 }
